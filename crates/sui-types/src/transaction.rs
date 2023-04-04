@@ -64,6 +64,26 @@ pub enum CallArg {
     Object(ObjectArg),
 }
 
+impl CallArg {
+    pub const SUI_SYSTEM_OBJ_CALL_ARG: Self = Self::Object(ObjectArg::SUI_SYSTEM_OBJ);
+
+    pub fn read_clock_call_arg() -> Self {
+        Self::Object(ObjectArg::SharedObject {
+            id: SUI_CLOCK_OBJECT_ID,
+            initial_shared_version: SUI_CLOCK_OBJECT_SHARED_VERSION,
+            mutable: false,
+        })
+    }
+
+    pub fn write_clock_call_arg() -> Self {
+        Self::Object(ObjectArg::SharedObject {
+            id: SUI_CLOCK_OBJECT_ID,
+            initial_shared_version: SUI_CLOCK_OBJECT_SHARED_VERSION,
+            mutable: true,
+        })
+    }
+}
+
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Serialize, Deserialize)]
 pub enum ObjectArg {
     // A Move object, either immutable, or owned mutable.
@@ -294,6 +314,12 @@ impl From<ObjectRef> for CallArg {
 }
 
 impl ObjectArg {
+    pub const SUI_SYSTEM_OBJ: Self = Self::SharedObject {
+        id: SUI_SYSTEM_STATE_OBJECT_ID,
+        initial_shared_version: SUI_SYSTEM_STATE_OBJECT_SHARED_VERSION,
+        mutable: true,
+    };
+
     pub fn id(&self) -> ObjectID {
         match self {
             ObjectArg::ImmOrOwnedObject((id, _, _)) | ObjectArg::SharedObject { id, .. } => *id,
@@ -765,6 +791,12 @@ pub struct SharedInputObject {
 }
 
 impl SharedInputObject {
+    pub const SUI_SYSTEM_OBJ: Self = Self {
+        id: SUI_SYSTEM_STATE_OBJECT_ID,
+        initial_shared_version: SUI_SYSTEM_STATE_OBJECT_SHARED_VERSION,
+        mutable: true,
+    };
+
     pub fn id(&self) -> ObjectID {
         self.id
     }
@@ -810,11 +842,9 @@ impl TransactionKind {
     /// It covers both Call and ChangeEpoch transaction kind, because both makes Move calls.
     pub fn shared_input_objects(&self) -> impl Iterator<Item = SharedInputObject> + '_ {
         match &self {
-            Self::ChangeEpoch(_) => Either::Left(Either::Left(iter::once(SharedInputObject {
-                id: SUI_SYSTEM_STATE_OBJECT_ID,
-                initial_shared_version: SUI_SYSTEM_STATE_OBJECT_SHARED_VERSION,
-                mutable: true,
-            }))),
+            Self::ChangeEpoch(_) => {
+                Either::Left(Either::Left(iter::once(SharedInputObject::SUI_SYSTEM_OBJ)))
+            }
 
             Self::ConsensusCommitPrologue(_) => {
                 Either::Left(Either::Right(iter::once(SharedInputObject {
