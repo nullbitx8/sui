@@ -574,7 +574,7 @@ impl TestClusterBuilder {
         let network_path = dir.join(SUI_NETWORK_CONFIG);
         let wallet_path = dir.join(SUI_CLIENT_CONFIG);
         let keystore_path = dir.join(SUI_KEYSTORE_FILENAME);
-        swarm.config().save(&network_path)?;
+        swarm.config().save(network_path)?;
 
         // We don't need to add keystore since we have local keystore for this.
         // Add a key from the keystore for wallet.

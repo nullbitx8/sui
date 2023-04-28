@@ -220,7 +220,7 @@ impl Cluster for LocalNewCluster {
             let keystore_path = sui_cluster_test_config_dir()?.join(SUI_KEYSTORE_FILENAME);
             let keystore = Keystore::from(FileBasedKeystore::new(&keystore_path)?);
             let faucet_address = keystore.addresses().first().cloned().unwrap();
-            let pub_faucet = keystore.get_key(&faucet_address)?.clone();
+            let pub_faucet = keystore.get_key(&faucet_address)?;
             let faucet_key = match pub_faucet {
                 SuiKeyPair::Ed25519(account_keypair) => Some(account_keypair),
                 _ => None,
