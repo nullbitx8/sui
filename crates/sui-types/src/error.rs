@@ -366,6 +366,8 @@ pub enum SuiError {
     TransactionAlreadyExecuted { digest: TransactionDigest },
     #[error("Object ID did not have the expected type")]
     BadObjectType { error: String },
+    #[error("Fail to retrive Object layout for {st}")]
+    FailObjectLayout { st: String },
 
     #[error("Execution invariant violated")]
     ExecutionInvariantViolation,
