@@ -38,7 +38,7 @@ impl<
 }
 
 pub trait StorageView: Storage + ParentSync + ChildObjectResolver {}
-impl<'state, T: Storage + ParentSync + ChildObjectResolver> StorageView for T {}
+impl<T: Storage + ParentSync + ChildObjectResolver> StorageView for T {}
 
 pub struct ExecutionResults {
     pub object_changes: BTreeMap<ObjectID, ObjectChange>,
