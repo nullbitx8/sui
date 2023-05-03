@@ -724,7 +724,7 @@ async fn test_publish_gas() -> anyhow::Result<()> {
         &sender_key,
         &gas_object_id,
         "object_wrapping",
-        TEST_ONLY_GAS_UNIT_FOR_PUBLISH * rgp * 2,
+        TEST_ONLY_GAS_UNIT_FOR_PUBLISH * rgp,
         rgp,
         /* with_unpublished_deps */ false,
     )

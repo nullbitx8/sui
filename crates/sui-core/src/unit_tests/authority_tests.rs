@@ -5180,7 +5180,7 @@ async fn test_publish_transitive_dependencies_ok() {
         kind,
         sender,
         vec![gas_ref],
-        rgp * TEST_ONLY_GAS_UNIT_FOR_PUBLISH * 2,
+        rgp * TEST_ONLY_GAS_UNIT_FOR_PUBLISH,
         rgp,
     );
     let signed = to_sender_signed_transaction(txn_data, &key);

@@ -234,7 +234,7 @@ pub async fn upgrade_package_with_wallet(
                 UpgradePolicy::COMPATIBLE,
                 digest,
                 None,
-                TEST_ONLY_GAS_UNIT_FOR_PUBLISH * 2 * gas_price,
+                TEST_ONLY_GAS_UNIT_FOR_PUBLISH * gas_price,
             )
             .await
             .unwrap();
