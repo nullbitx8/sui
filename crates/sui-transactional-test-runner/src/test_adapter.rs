@@ -772,7 +772,7 @@ impl<'a> MoveTestAdapter<'a> for SuiTestAdapter<'a> {
                         let original_name = adapter
                             .package_upgrade_mapping
                             .get(package)
-                            .unwrap_or_else(|| package);
+                            .unwrap_or(package);
                         adapter
                             .package_upgrade_mapping
                             .insert(upgraded_name, *original_name);
