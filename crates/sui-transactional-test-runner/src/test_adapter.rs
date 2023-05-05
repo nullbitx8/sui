@@ -767,18 +767,12 @@ impl<'a> MoveTestAdapter<'a> for SuiTestAdapter<'a> {
                                 .unwrap_or_else(|| panic!("Internal error: expected dependency {name} in map when restoring address."));
                         }
 
-                        // Transitively resolve upgrade path until we get to the original base package.
                         let upgraded_name = modules.first().unwrap().0.unwrap();
-                        let mut original_name = &Symbol::from(package.as_str());
-                        loop {
-                            let Some(previous) =
-                                adapter.package_upgrade_mapping.get(original_name) else { break };
-                            if original_name == previous {
-                                break;
-                            };
-                            original_name = previous;
-                        }
-                        // Record the original package of this upgraded package.
+                        let package = &Symbol::from(package.as_str());
+                        let original_name = adapter
+                            .package_upgrade_mapping
+                            .get(package)
+                            .unwrap_or_else(|| package);
                         adapter
                             .package_upgrade_mapping
                             .insert(upgraded_name, *original_name);
