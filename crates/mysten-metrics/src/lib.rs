@@ -310,7 +310,10 @@ impl RegistryService {
 /// Create a metric that measures the uptime from when this metric was constructed.
 /// The metric is labeled with the provided 'version' label (this should generally be of the
 /// format: 'semver-gitrevision').
-pub fn uptime_metric(version: &'static str) -> Box<dyn prometheus::core::Collector> {
+pub fn uptime_metric(
+    version: &'static str,
+    chain_identifier: &str,
+) -> Box<dyn prometheus::core::Collector> {
     let opts = prometheus::opts!("uptime", "uptime of the node service in seconds")
         .variable_label("version");
 
@@ -320,7 +323,7 @@ pub fn uptime_metric(version: &'static str) -> Box<dyn prometheus::core::Collect
         opts,
         prometheus_closure_metric::ValueType::Counter,
         uptime,
-        &[version],
+        &[version, chain_identifier],
     )
     .unwrap();
 
