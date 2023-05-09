@@ -1,5 +1,11 @@
 # @mysten/sui.js
 
+## 0.34.0
+
+### Minor Changes
+
+- 280821e0ab: Add "mainnet" connection to the list of available connections
+
 ## 0.33.0
 
 ### Minor Changes
