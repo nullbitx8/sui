@@ -18,6 +18,7 @@ use prometheus::{register_int_gauge_with_registry, IntGauge, Registry};
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::time::Instant;
+use sui_protocol_config::ProtocolConfig;
 use sui_types::crypto::{AuthorityKeyPair, NetworkKeyPair};
 use tokio::sync::Mutex;
 
@@ -123,6 +124,7 @@ impl NarwhalManager {
         worker_cache: WorkerCache,
         execution_state: Arc<State>,
         tx_validator: TxValidator,
+        protocol_config: ProtocolConfig,
     ) where
         State: ExecutionState + Send + Sync + 'static,
     {
@@ -163,6 +165,7 @@ impl NarwhalManager {
                     network_client.clone(),
                     &store,
                     execution_state.clone(),
+                    protocol_config.clone(),
                 )
                 .await
             {
@@ -201,6 +204,7 @@ impl NarwhalManager {
                     network_client.clone(),
                     &store,
                     tx_validator.clone(),
+                    protocol_config.clone(),
                 )
                 .await
             {

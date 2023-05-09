@@ -14,6 +14,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashSet};
 use std::fmt::{Display, Formatter};
 use std::num::NonZeroU64;
+use sui_protocol_config::{ProtocolConfig, ProtocolVersion};
 
 #[derive(Clone, Serialize, Deserialize, Debug, Eq, PartialEq)]
 pub struct Authority {
@@ -111,6 +112,9 @@ pub struct Committee {
     /// The validity threshold (f+1)
     #[serde(skip)]
     validity_threshold: Stake,
+    // Protocol version for this epoch.
+    #[serde(skip)]
+    protocol_version: ProtocolVersion,
 }
 
 // Every authority gets uniquely identified by the AuthorityIdentifier

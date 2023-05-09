@@ -732,6 +732,7 @@ impl SuiNode {
             .address;
         let worker_cache = new_epoch_start_state.get_narwhal_worker_cache(transactions_addr);
 
+        let protocol_config = epoch_store.protocol_config().clone();
         narwhal_manager
             .start(
                 new_epoch_start_state.get_narwhal_committee(),
@@ -742,6 +743,7 @@ impl SuiNode {
                     state.transaction_manager().clone(),
                     sui_tx_validator_metrics.clone(),
                 ),
+                protocol_config,
             )
             .await;
 
